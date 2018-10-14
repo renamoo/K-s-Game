@@ -1,0 +1,48 @@
+.game{
+    display:flex;
+    flex-direction:row;
+    position:relative;
+.stage{
+    width:400px;
+    height: 360px;
+    display:flex;
+    flex-flow: row wrap;
+    .card{
+        width:70px;
+        height:70px;
+        border: solid 1px dimgray;
+        margin:3px;
+        &:hover{
+            background-color:antiquewhite;
+        }
+        &.put{
+            background-color:tan;
+        }
+        .number{
+            font-size:3.0rem;
+            font-family:Century Gothic;
+            width:70px;
+            height:70px;
+            text-align:center;
+            line-height:70px;
+        }
+    }
+}
+.deck{
+    position:absolute;
+    width:120px;
+    height:120px;
+    background-color:paleturquoise;
+    left:400px;
+    top:252px;
+    .number{
+        margin:15px;
+        font-size:5.0rem;
+        font-family:Century Gothic;
+        width:90px;
+        height:90px;
+        text-align:center;
+        line-height:90px;
+    }
+}
+}
