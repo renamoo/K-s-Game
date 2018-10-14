@@ -1,48 +1,64 @@
+@import "~@fortawesome/fontawesome-free/css/all.css";
 .game{
     display:flex;
-    flex-direction:row;
+    flex-direction:column;
     position:relative;
-.stage{
-    width:400px;
-    height: 360px;
-    display:flex;
-    flex-flow: row wrap;
-    .card{
-        width:70px;
-        height:70px;
-        border: solid 1px dimgray;
-        margin:3px;
-        &:hover{
+    .stage{
+        width:350px;
+        height: 350px;
+        display:flex;
+        flex-flow: row wrap;
+        margin:auto;
+        .card{
+            width:60px;
+            height:60px;
             background-color:antiquewhite;
+            margin:3px;
+            &.put{
+                background-color:tan;
+            }
+            .number{
+                font-size:3.0rem;
+                font-family:Century Gothic;
+                width:60px;
+                height:60px;
+                text-align:center;
+                line-height:60px;
+            }
         }
-        &.put{
-            background-color:tan;
-        }
+    }
+    .deck{
+        width:100px;
+        height:100px;
+        background-color:paleturquoise;
+        margin:auto;
         .number{
-            font-size:3.0rem;
+            margin:10px;
+            font-size:4.8rem;
             font-family:Century Gothic;
-            width:70px;
-            height:70px;
+            width:80px;
+            height:80px;
             text-align:center;
-            line-height:70px;
+            line-height:80px;
         }
     }
-}
-.deck{
-    position:absolute;
-    width:120px;
-    height:120px;
-    background-color:paleturquoise;
-    left:400px;
-    top:252px;
-    .number{
-        margin:15px;
-        font-size:5.0rem;
+    .gameover{
         font-family:Century Gothic;
-        width:90px;
-        height:90px;
+        background-color:lightblue;
+        width:130px;
+        height:130px;
+        padding:8px;
         text-align:center;
-        line-height:90px;
+        margin:auto;
+        position:absolute;
+        top:25%;
+        left:28%;
+        .msg{
+            padding:20px;
+            mat-icon{
+                font-size:1.8rem;
+                padding-top:5px;
+            }
+        }
     }
-}
 }

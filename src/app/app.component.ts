@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +9,18 @@ export class AppComponent implements OnInit{
   cards:number[] = [];
   count: number = 0;
   num:number;
+  spaces: number[];
   putCards: {[key:number]:number} = {};
   completed:boolean = false;
   isGameOvered: boolean = false;
+  score: number;
 
   ngOnInit(){
     for (let i=1; i<=25 ; i++){
       this.cards.push(i);
     }
+    this.spaces = [].concat(this.cards);
+    for(let i=0; i<5; i++){ this.cards.pop(); }
     this.cards = this.shuffle(this.cards);
     this.num = this.cards[0];
   }
@@ -26,9 +30,28 @@ export class AppComponent implements OnInit{
       this.count++;
       this.putCards[i] = this.num;
       this.num = this.cards[this.count];
-      if(this.isGameOver()) this.isGameOvered = true;
+      if(this.count===5) {
+        let firstRow = [this.cards[0],this.cards[1],this.cards[2],this.cards[3],this.cards[4]];
+        for(let j=0; j<5; j++){ this.cards.shift(); }
+        this.cards= firstRow.concat(this.shuffle(this.cards.concat([21,22,23,24,25])));
+      }
+      if(this.count===25) {
+        this.completed = true;
+      }else if(this.isGameOver()) {
+        this.score = Object.keys(this.putCards).length; 
+        this.isGameOvered = true;
+      }
     }
   }
+
+  @HostListener('click')
+    onClick() {
+       if(this.isGameOvered || this.completed) {
+         setTimeout(()=> {
+           location.reload();
+         }, 2000); 
+        }
+    }
 
   check(i){
     if(i >= 20 && !this.putCards[i]) return true;
