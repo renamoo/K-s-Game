@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Classic25PageComponent } from './pages/classic25-page/classic25-page.component';
 import { RouterModule, Routes } from '@angular/router';
+import { Advanced30PageComponent } from './pages/advanced30-page/advanced30-page.component';
+import { Classic25PageComponent } from './pages/classic25-page/classic25-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'classic25', pathMatch: 'full' },
-  { path: 'classic25', component: Classic25PageComponent }
+  { path: 'classic25', component: Classic25PageComponent },
+  { path: 'advanced30', component: Advanced30PageComponent }
 ];
 
 @NgModule({
