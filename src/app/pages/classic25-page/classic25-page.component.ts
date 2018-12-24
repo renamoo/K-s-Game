@@ -1,4 +1,3 @@
-import { HostListener } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,118 +6,84 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./classic25-page.component.less']
 })
 export class Classic25PageComponent implements OnInit {
-  cards: number[] = [];
+  fields: { val: number }[][] = [];
+  cardNums: number[] = [];
+  cardNum: number;
   count: number = 0;
-  num: number;
-  spaces: number[];
-  putCards: { [key: number]: number } = {};
-  completed: boolean = false;
-  isGameOvered: boolean = false;
-  score: number;
+  isScoreShown: boolean = false;
+  message: string;
+  icon: string;
+
+  constructor() { }
 
   ngOnInit() {
-    for (let i = 1; i <= 25; i++) {
-      this.cards.push(i);
+    for (let i = 0; i < 25; i++) {
+      i % 5 === 0 ? this.fields.push([{ val: 0 }]) : this.fields[Math.floor(i / 5)].push({ val: 0 });
+      if (i < 20) { this.cardNums.push(i + 1); }
     }
-    this.spaces = [].concat(this.cards);
-    for (let i = 0; i < 5; i++) {
-      this.cards.pop();
-    }
-    this.cards = this.shuffle(this.cards);
-    this.num = this.cards[0];
+    this.shuffle(this.cardNums);
+    this.cardNum = this.cardNums[this.count];
+    this.isScoreShown = false;
   }
 
-  onPut(i) {
-    if (this.check(i)) {
+  onSelect(field: { val: number }, rowI: number, columnI: number) {
+    if (this.isValid(field, rowI, columnI)) {
       this.count++;
-      this.putCards[i] = this.num;
-      this.num = this.cards[this.count];
-      if (this.count === 4) {
-        const firstRow = [
-          this.cards[0],
-          this.cards[1],
-          this.cards[2],
-          this.cards[3],
-          this.cards[4]
-        ];
-        for (let j = 0; j < 5; j++) {
-          this.cards.shift();
-        }
-        this.cards = firstRow.concat(
-          this.shuffle(this.cards.concat([21, 22, 23, 24, 25]))
-        );
-      }
-      if (this.count === 25) {
-        this.completed = true;
-      } else if (this.isGameOver()) {
-        this.score = Object.keys(this.putCards).length;
-        this.isGameOvered = true;
-      }
+      field.val = this.cardNum;
+      if (this.count === 5) { this.addCards(); }
+      this.cardNum = this.cardNums[this.count];
+      if (this.isGameOver()) { this.showScore(); }
     }
   }
 
-  @HostListener('click')
-  onClick() {
-    if (this.isGameOvered || this.completed) {
-      setTimeout(() => {
-        location.reload();
-      }, 2000);
-    }
+  onRepeat() {
+    location.reload();
   }
 
-  check(i) {
-    if (i >= 20 && !this.putCards[i]) {
-      return true;
-    }
-    if (!this.putCards[i + 5]) {
-      return false;
-    }
-    if (this.putCards[i + 5] > this.num) {
-      return false;
-    }
+  private isValid(field: { val: number }, rowI: number, columnI: number) {
+    if (rowI === 4 && field.val === 0) { return true; }
+    if (this.fields[rowI][columnI].val !== 0) { return false; }
+    const bottomNum = this.fields[rowI + 1][columnI].val;
+    if (bottomNum === 0 || bottomNum > this.cardNum) { return false; }
     return true;
   }
 
-  isGameOver() {
-    if (
-      !this.putCards[20] &&
-      this.putCards[21] &&
-      this.putCards[22] &&
-      this.putCards[23] &&
-      this.putCards[24]
-    ) {
-      return false;
-    }
+  private isGameOver() {
+    if (this.fields[4].some(f => f.val === 0)) { return false; }
+    if (!this.fields[0].some(f => f.val === 0)) { this.perfect(); return false; }
+    const topNums = [];
     for (let i = 0; i < 5; i++) {
-      if (this.isAcceptable(i)) {
-        return false;
-      }
+      this.fields.some(arr => {
+        if (arr[i].val !== 0) { topNums.push(arr[i].val); return true; }
+      });
     }
-    return true;
+    return !topNums.some(f => this.cardNum > f);
   }
 
-  isAcceptable(n) {
-    const max =
-      this.putCards[n] ||
-      this.putCards[n + 5] ||
-      this.putCards[n + 10] ||
-      this.putCards[n + 15] ||
-      this.putCards[n + 20];
-    return max > this.num ? false : true;
+  private perfect() {
+    this.message = 'Amazing! すごいね!';
+    this.icon = 'fa-hat-wizard';
+    this.isScoreShown = true;
   }
 
-  shuffle(array) {
-    let n = array.length,
-      t,
-      i;
+  private showScore() {
+    this.message = this.count <= 10 ? 'まだまだ!' : this.count <= 20 ? 'いい感じ!' : 'すごい!あと少し!';
+    this.icon = 'fa-ghost';
+    this.isScoreShown = true;
+  }
 
-    while (n) {
-      i = Math.floor(Math.random() * n--);
-      t = array[n];
-      array[n] = array[i];
-      array[i] = t;
+  private addCards() {
+    const stash = [];
+    for (let i = 0; i < 5; i++) { stash.push(this.cardNums.shift()); }
+    const newArr = this.cardNums.concat([21, 22, 23, 24, 25]);
+    this.shuffle(newArr);
+    this.cardNums = stash.concat(newArr);
+  }
+
+  private shuffle(array: number[]) {
+    for (let i = array.length - 1; i >= 0; i--) {
+      const rand = Math.floor(Math.random() * (i + 1));
+      [array[i], array[rand]] = [array[rand], array[i]];
     }
-
-    return array;
   }
 }

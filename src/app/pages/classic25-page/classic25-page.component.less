@@ -1,64 +1,74 @@
 @import '~@fortawesome/fontawesome-free/css/all.css';
-.game {
-  display: flex;
+.back{
+  display:flex;
   flex-direction: column;
-  position: relative;
-  .stage {
-    width: 350px;
-    height: 350px;
-    display: flex;
-    flex-flow: row wrap;
-    margin: auto;
-    .card {
-      width: 60px;
-      height: 60px;
-      background-color: antiquewhite;
-      margin: 3px;
-      &.put {
-        background-color: tan;
-      }
-      .number {
-        font-size: 3rem;
-        font-family: Century Gothic;
-        width: 60px;
-        height: 60px;
+  background-color: powderblue;
+  padding: 2vw;
+  height:100vh;
+  font-family: Century Gothic;
+  .fields{
+    display:flex;
+    flex-direction: column;
+    .row {
+      display:flex;
+      flex-direction: row;
+      margin: 0.6vw 0;
+      .field{
+        background-color: white;
+        width: 18vw;
+        height:18vw;
+        margin: auto;
         text-align: center;
-        line-height: 60px;
+        line-height: 18vw;
+        font-size:1.5rem;
+        &.put {
+          background-color: rgb(148, 129, 104);
+          color: white;
+        }
       }
     }
   }
-  .deck {
-    width: 100px;
-    height: 100px;
-    background-color: paleturquoise;
-    margin: auto;
-    .number {
-      margin: 10px;
-      font-size: 4.8rem;
-      font-family: Century Gothic;
-      width: 80px;
-      height: 80px;
-      text-align: center;
-      line-height: 80px;
+  .cardStage{
+    position: relative;
+    text-align:center;
+    img{
+      width: 60vw;
+    }
+    .card{
+      position:absolute;
+      width:18vw;
+      height:18vw;
+      line-height: 18vw;
+      margin:auto;
+      color:white;
+      top:40vw;
+      left:38vw;
+      font-size:2.0rem;
     }
   }
-  .gameover {
-    font-family: Century Gothic;
-    background-color: lightblue;
-    width: 130px;
-    height: 130px;
-    padding: 8px;
+  .score{
+    display: none;
+    position:absolute;
+    background-color:#59c3d3;
+    border-radius: 5px;
+    top: 30vh;
+    left: 20vw;
+    width: 60vw;
+    height: 60vw;
     text-align: center;
-    margin: auto;
-    position: absolute;
-    top: 25%;
-    left: 28%;
-    .msg {
-      padding: 20px;
-      mat-icon {
-        font-size: 1.8rem;
-        padding-top: 5px;
-      }
+    line-height: 10vw;
+    z-index:10;
+    &.shown {
+      display: block;
     }
+    mat-icon{
+      font-size: 1.8rem;
+    height: 8vh;
+    line-height: 1.8rem;
+    }
+  }
+  .footer{
+    height: 5vh;
+    margin-top:auto;
   }
 }

@@ -6,7 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./top-page.component.less']
 })
 export class TopPageComponent implements OnInit {
-  constructor() {}
+  modes = [
+    { name: '25 -classic-', link: '/classic25' },
+    { name: '30 -advanced-', link: '/advanced30' }
+  ];
 
-  ngOnInit() {}
+  constructor() { }
+
+  ngOnInit() { }
 }
