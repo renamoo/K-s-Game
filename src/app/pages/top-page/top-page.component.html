@@ -1,0 +1,10 @@
+<div class="back">
+  <div class="title">
+    <img src="../../../assets/icons/top-bear.png">
+  </div>
+  <div class="menu">
+    <div class="mode" *ngFor="let mode of modes" [routerLink]="[mode.link]">
+      {{ mode.name }}
+    </div>
+  </div>
+</div>

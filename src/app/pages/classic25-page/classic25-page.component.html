@@ -1,0 +1,26 @@
+<div class="back">
+  <div class="fields">
+    <div class="cardStage">
+      <img src="../../../../../assets/icons/card-bear.png">
+      <div class="card">
+        {{ cardNum }}
+      </div>
+    </div>
+    <div class="row" *ngFor="let row of fields; let rowI = index">
+      <div class="field" *ngFor="let field of row; let columnI = index" (click)="onSelect(field, rowI, columnI)"
+        [class.put]="field.val>0">
+        {{ field.val === 0 ? '' : field.val }}
+      </div>
+    </div>
+  </div>
+  <div class="score" [class.shown]="isScoreShown" (click)="onRepeat()">
+    <br>
+    Score: {{ count }}<br>
+    {{message}}<br>
+    <mat-icon fontSet="fa" [fontIcon]="icon" inline></mat-icon>
+    <div>もう一回やる？</div>
+  </div>
+  <div class="footer" routerLink="/">
+    <app-footer></app-footer>
+  </div>
+</div>
